@@ -4,7 +4,8 @@ read_df = spark\
     .read\
     .format("json")\
     .option("multiLine","true") \
-    .load("s3://prudhvi-08052024-test/json")
+    .option('header', 'true') \
+    .load("s3://aspad-22082024-test/2024_05_08T04_08_53Z/json/Allan198_Gottlieb798_20a1b578-95bd-6d4d-0945-55f228f50077.json")
 
 # read_df = spark\
 #     .read\
@@ -55,7 +56,7 @@ def identify_json_corrupt_records(df):
 
         # Filter out the corrupt records into a new DataFrame
         corrupted_record_df = df.filter(col('_corrupt_record').isNotNull())
-
+        
         # Filter out the non-corrupt records into a new DataFrame
         if not does_all_records_are_corrupted:
             non_corrupt_df = df.filter(col('_corrupt_record').isNull())
@@ -72,6 +73,7 @@ if corrupted_record_df:
     print(corrupted_record_df.count())
 print(non_corrupted_records_df.count())
 
+
 # COMMAND ----------
 
 # MAGIC %sql
@@ -79,7 +81,7 @@ print(non_corrupted_records_df.count())
 # MAGIC CREATE OR REPLACE TEMPORARY VIEW temp_view
 # MAGIC USING json
 # MAGIC OPTIONS (
-# MAGIC   path 's3://prudhvi-08052024-test/json', 
+# MAGIC   path '/Volumes/test/s3_test/health-care/json', 
 # MAGIC   multiLine 'true',
 # MAGIC   inferSchema 'true'
 # MAGIC );
@@ -108,7 +110,7 @@ transform_df1 = non_corrupted_records_df.selectExpr("coverage","symptoms","recor
 
 # COMMAND ----------
 
-required_columns = ["first_name","middle_name","last_name","gender","age","age_months","marital_status","employment_condition.name as employment_type","birth_city","address","county","city","state","alcoholic","smoker",'disabled','household_size','uninsured',"C19_FULLY_VACCINATED","C19_SCHEDULED_FIRST_SHOT","diabetes_stage.name","hypertension_severe",'immunizations',"bmi_percentile","coverage","symptoms","record"]
+required_columns = ["first_name","middle_name","last_name","gender","age","age_months","marital_status","employment_condition.name as employment_type","birth_city","address","county","city","state","alcoholic","smoker",'disabled','household_size','uninsured',"C19_FULLY_VACCINATED","C19_SCHEDULED_FIRST_SHOT","hypertension_severe",'immunizations',"bmi_percentile","coverage","symptoms","record"]
 
 transform_df2 = transform_df1.selectExpr(required_columns)
 transform_df2.printSchema()
@@ -320,6 +322,8 @@ df = spark.sql(sql_code)
 
 # Display the DataFrame
 display(df)
+
+# Search "databricks sql functions" in google for all the functions in Databricks
 
 # COMMAND ----------
 
