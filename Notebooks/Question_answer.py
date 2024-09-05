@@ -63,3 +63,7 @@ print(good_record_df.columns)
 #Create a new column "diabetes_category" that indicates if a person has diabetes or not
 # Create a new column "hypertension_severe_category" that indicates if a person has severe hypertension or not
 # Select the required columns from transform_df3
+
+# COMMAND ----------
+
+# Create a table allergies_aspad like claims_transactions

@@ -360,7 +360,7 @@ from pyspark.sql.functions import avg, stddev, col, abs, when
 window_spec = Window.partitionBy("PATIENTID")
 
 sql_query = f"""
-    SELECT * FROM {database_name}.claims_transcations
+    SELECT * FROM {database_name}.claims_transactions
 """
 
 df = read_data_from_sql(spark, sql_query)
@@ -491,7 +491,7 @@ display(df)
 # MAGIC         DISTINCT  PATIENTID, 
 # MAGIC                   FROMDATE   
 # MAGIC     FROM 
-# MAGIC         lakehouse_dev.health_care.claims_transcations)
+# MAGIC         lakehouse_dev.health_care.claims_transactions)
 # MAGIC
 
 # COMMAND ----------
@@ -503,7 +503,7 @@ Determine the top N patients who have shown the highest growth rate in charges o
 from pyspark.sql.functions import sum, col, year
 
 sql_query = f"""
-    SELECT * FROM {database_name}.claims_transcations
+    SELECT * FROM {database_name}.claims_transactions
 """
 
 df = read_data_from_sql(spark, sql_query)
